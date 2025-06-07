@@ -4,8 +4,8 @@ import { sidebarItems } from "~/constants";
 
 const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
   const user = {
-    name: "Adrin",
-    email: "contact@jsmastery.pro",
+    name: "Chaini",
+    email: "chaini.mst@gmail.com",
     imageUrl: "/assets/images/david.webp",
   };
 
