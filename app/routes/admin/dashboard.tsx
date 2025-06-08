@@ -5,6 +5,7 @@ import type { Route } from "./+types/dashboard";
 const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } =
   dashboardStats;
 
+
 // export async function clientLoader(){
 //   const user = await getUser()
 //   return user
