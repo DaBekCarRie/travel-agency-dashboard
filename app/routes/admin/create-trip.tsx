@@ -1,7 +1,7 @@
 import { ComboBoxComponent } from "@syncfusion/ej2-react-dropdowns";
 import { Header } from "components";
 import type { Route } from "./+types/create-trip";
-import { comboBoxItems, selectItems } from "~/constants";
+import { comboBoxItems, selectItems, travelStyles } from "~/constants";
 import { cn, formatKey } from "lib/utils";
 import {
   LayerDirective,
@@ -12,6 +12,7 @@ import { useState } from "react";
 import { world_map } from "~/constants/world_map";
 import { ButtonComponent } from "@syncfusion/ej2-react-buttons";
 import { account } from "~/appwrite/client";
+import { useNavigate } from "react-router";
 
 export async function loader() {
   const response = await fetch(
@@ -29,6 +30,7 @@ export async function loader() {
 
 const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
   const countires = loaderData as Country[];
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<TripFormData>({
     country: countires[0]?.name || "",
@@ -57,25 +59,40 @@ const CreateTrip = ({ loaderData }: Route.ComponentProps) => {
       return;
     }
 
-    if(formData.duration < 1 || formData.duration > 10){
-        setError('Duration must be between 1 and 10 days')
-        setLoading(false)
-        return
+    if (formData.duration < 1 || formData.duration > 10) {
+      setError("Duration must be between 1 and 10 days");
+      setLoading(false);
+      return;
     }
-    const user = await account.get()
-    if(!user.$id){
-        console.log('User not authenticated')
-        setLoading(false)
-        return
+    const user = await account.get();
+    if (!user.$id) {
+      console.log("User not authenticated");
+      setLoading(false);
+      return;
     }
-    try{
-        console.log('user',user)
-        console.log('formData',formData)
+    try {
+      const response = await fetch("/api/create-trip", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          country: formData.country,
+          numberOfDays: formData.duration,
+          travelStyle: formData.travelStyle,
+          interests: formData.interest,
+          budget: formData.budget,
+          groupType: formData.groupType,
+          userId: user.$id,
+        }),
+      });
 
-    }catch(e){
-        console.error('Error generating trip',e)
-    }finally{
-        setLoading(false)
+      const result: CreateTripResponse = await response.json();
+
+      if (result?.id) navigate(`/trips/${result.id}`);
+      else console.error("Failed to generate a trip");
+    } catch (e) {
+      console.error("Error generating trip", e);
+    } finally {
+      setLoading(false);
     }
   };
   const handleChange = (key: keyof TripFormData, value: string | number) => {
