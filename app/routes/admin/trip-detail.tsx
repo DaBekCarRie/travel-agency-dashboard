@@ -18,9 +18,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     getTripById(tripId),
     getAllTrips(4, 0),
   ]);
-
   //   const trips = await getAllTrips(4, 0);
-
   //   const trip = await getTripById(tripId);
 
   return {
