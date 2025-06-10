@@ -437,6 +437,9 @@
   .p-16-semibold {
     @apply text-sm md:text-base font-semibold;
   }
+  .p-14-regular {
+    @apply text-[10px] md:text-[14px] leading-[10px] md:leading-[12px] font-normal;
+  }
   .button-class {
     @apply !bg-primary-100 !px-4 !rounded-lg !flex !items-center !justify-center !gap-1.5 !shadow-none;
   }

@@ -11,7 +11,7 @@ sidebar.toggle()
   return (
     <div className="mobile-sidebar wrapper">
         <header>
-            <Link to="/">
+            <Link to="/dashboard">
             <img src="/assets/icons/logo.svg" alt="Logo" 
             className="size-[30px]"/>
             <h1>Tourvisto</h1></Link>
